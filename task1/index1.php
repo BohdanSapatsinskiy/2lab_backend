@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Замінник тексту</title>
 </head>
 <body>
+<?php
+$baseText = $_POST['baseText'] ?? '';
+$findElem = $_POST['findElem'] ?? '';
+$repElem = $_POST['repElem'] ?? '';
+$result = '';
+
+if (!empty($baseText) && !empty($findElem)) {
+    if (strpos($baseText, $findElem) !== false) {
+        $result = str_ireplace($findElem, $repElem, $baseText);
+    } else {
+        $result = "Слово '$findElem' не знайдено в тексті";
+    }
+}
+?>
+<form action="index1.php" method="post">
+    <input name="baseText" type="text" placeholder="Введіть рядок" value="<?= htmlspecialchars($_POST['baseText'] ?? '') ?>">
+    <br>
+    <input name="findElem" type="text" placeholder="Введіть текст для заміни" value="<?= htmlspecialchars($_POST['findElem'] ?? '') ?>">
+    <br>
+    <input name="repElem" type="text" placeholder="Введіть на що замінити" value="<?= htmlspecialchars($_POST['repElem'] ?? '') ?>">
+    <br>
+    <input name="result" type="text" placeholder="Результат..." value="<?= htmlspecialchars($result ?? '') ?>" readonly>
+    <br>
+    <button type="submit">Надіслати</button>
+</form>
 
 <?php
-
-$baseText = "Hello World world!";
-echo "Дано рядок: $baseText <br>";
-$findElem = "world";
-echo "Знайти: $findElem <br>";
-$repElem = "Sam"; 
-echo "Замінити на: $repElem <br>";
-
-if (strpos($baseText, $findElem) !== false) {
-    $result = str_ireplace($findElem, $repElem, $baseText);
-    echo "Результат: $result";
-} else {
-    echo "Слово '$findElem' не знайдено в тексті.<br>";
-}
-
-
 
 echo "<br><br>";
 $cityLine = "Житомир Київ Львів Дніпро";
